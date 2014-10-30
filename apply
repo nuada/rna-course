@@ -4,7 +4,7 @@
 # Install puppet
 if [[ ! $(which puppet) ]]; then
 	apt-get update
-	apt-get install -y wget git
+	apt-get install -qqy wget
 	. /etc/lsb-release
 	wget http://apt.puppetlabs.com/puppetlabs-release-${DISTRIB_CODENAME}.deb
 	dpkg -i puppetlabs-release-${DISTRIB_CODENAME}.deb
@@ -19,10 +19,10 @@ fi
 
 # If not running from repo clone it
 if [[ $0 == 'bash' ]]; then
-	if [[ ! $(dpkg -l git-core 2> /dev/null) ]]; then
-		apt-get install -qqy git-core
+	if [[ ! $(dpkg -l git 2> /dev/null) ]]; then
+		apt-get install -qqy git
 	fi
-	git clone https://github.com/nuada/puppet
+	git clone https://github.com/nuada/rna-course
 	cd puppet
 fi
 
