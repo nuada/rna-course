@@ -23,7 +23,7 @@ if [[ $0 == 'bash' ]]; then
 		apt-get install -qqy git
 	fi
 	git clone https://github.com/nuada/rna-course
-	cd puppet
+	cd rna-course
 fi
 
 puppet apply --verbose $* manifests
