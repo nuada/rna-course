@@ -1,0 +1,29 @@
+#!/bin/bash
+# Usage: curl https://raw.github.com/nuada/<repo>/master/apply | bash -s
+
+# Install puppet
+if [[ ! $(which puppet) ]]; then
+	apt-get update
+	apt-get install -y wget
+	. /etc/lsb-release
+	wget http://apt.puppetlabs.com/puppetlabs-release-${DISTRIB_CODENAME}.deb
+	dpkg -i puppetlabs-release-${DISTRIB_CODENAME}.deb
+	rm -rf puppetlabs-release-${DISTRIB_CODENAME}.deb
+	apt-get update
+	apt-get -y install puppet
+fi
+
+if [[ ! $(puppet module list | grep puppetlabs-apt) ]]; then
+	puppet module install puppetlabs/apt
+fi
+
+# If not running from repo clone it
+if [[ $0 == 'bash' ]]; then
+	if [[ ! $(dpkg -l git-core 2> /dev/null) ]]; then
+		apt-get install -qqy git-core
+	fi
+	git clone https://github.com/nuada/puppet
+	cd puppet
+fi
+
+puppet apply --verbose $* manifests

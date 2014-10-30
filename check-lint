@@ -1,0 +1,2 @@
+#!/bin/bash
+find -name '*.pp' -exec puppet-lint --with-filename --no-hard_tabs-check --no-80chars-check --no-2sp_soft_tabs-check {} \;
