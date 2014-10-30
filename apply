@@ -1,17 +1,21 @@
 #!/bin/bash
 # Usage: curl https://raw.githubusercontent.com/nuada/rna-course/master/apply | bash -s
 
-# Install puppet
-if [[ ! $(which puppet) ]]; then
-	apt-get update
-	apt-get install -qqy wget
-	. /etc/lsb-release
-	wget http://apt.puppetlabs.com/puppetlabs-release-${DISTRIB_CODENAME}.deb
-	dpkg -i puppetlabs-release-${DISTRIB_CODENAME}.deb
-	rm -rf puppetlabs-release-${DISTRIB_CODENAME}.deb
-	apt-get update
-	apt-get -y install puppet
+# Remove old puppet
+if which puppet; then
+	apt-get purge -y puppet puppet-common
+	apt-get autoremove -y
 fi
+
+# Install puppet
+apt-get update
+apt-get install -qqy wget
+. /etc/lsb-release
+wget http://apt.puppetlabs.com/puppetlabs-release-${DISTRIB_CODENAME}.deb
+dpkg -i puppetlabs-release-${DISTRIB_CODENAME}.deb
+rm -rf puppetlabs-release-${DISTRIB_CODENAME}.deb
+apt-get update
+apt-get -qqy install puppet
 
 if [[ ! $(puppet module list | grep puppetlabs-apt) ]]; then
 	puppet module install puppetlabs/apt
