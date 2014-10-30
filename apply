@@ -1,10 +1,10 @@
 #!/bin/bash
-# Usage: curl https://raw.github.com/nuada/<repo>/master/apply | bash -s
+# Usage: curl https://raw.githubusercontent.com/nuada/rna-course/master/apply | bash -s
 
 # Install puppet
 if [[ ! $(which puppet) ]]; then
 	apt-get update
-	apt-get install -y wget
+	apt-get install -y wget git
 	. /etc/lsb-release
 	wget http://apt.puppetlabs.com/puppetlabs-release-${DISTRIB_CODENAME}.deb
 	dpkg -i puppetlabs-release-${DISTRIB_CODENAME}.deb
