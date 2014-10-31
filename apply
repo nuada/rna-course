@@ -3,17 +3,19 @@
 
 # Setup puppetlabs APT repos
 source /etc/lsb-release
-rm -rf /etc/apt/sources.list.d/puppetlabs.list.*
-cat << EOF > /etc/apt/sources.list.d/puppetlabs.list
+if grep -v ${DISTRIB_CODENAME} /etc/apt/sources.list.d/puppetlabs.list; then
+	rm -rf /etc/apt/sources.list.d/puppetlabs.list.*
+	cat << EOF > /etc/apt/sources.list.d/puppetlabs.list
 deb http://apt.puppetlabs.com ${DISTRIB_CODENAME} main
 deb-src http://apt.puppetlabs.com ${DISTRIB_CODENAME} main
 deb http://apt.puppetlabs.com ${DISTRIB_CODENAME} dependencies
 deb-src http://apt.puppetlabs.com ${DISTRIB_CODENAME} dependencies
 EOF
+	apt-get update
+fi
 
 # Install/update puppet
-apt-get update
-if which puppet; then
+if which puppet 2>&1 > /dev/null; then
 	puppet apply -e "package { 'puppet': ensure => latest; 'git': ensure => present; }"
 else
 	apt-get install -y puppet git
