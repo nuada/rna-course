@@ -1,16 +1,17 @@
 #!/bin/bash
 # Usage: curl https://raw.githubusercontent.com/nuada/rna-course/master/apply | bash -s
 
-# Install puppet
-apt-get update
-dpkg -l wget 2>&1 > /dev/null && apt-get install -y wget
-
+# Setup puppetlabs APT repos
 source /etc/lsb-release
-wget http://apt.puppetlabs.com/puppetlabs-release-${DISTRIB_CODENAME}.deb
-rm -rf /etc/apt/sources.list.d/puppetlabs.list*
-dpkg -i puppetlabs-release-${DISTRIB_CODENAME}.deb
-rm -rf puppetlabs-release-${DISTRIB_CODENAME}.deb
+rm -rf /etc/apt/sources.list.d/puppetlabs.list.*
+cat << EOF > /etc/apt/sources.list.d/puppetlabs.list
+deb http://apt.puppetlabs.com ${DISTRIB_CODENAME} main
+deb-src http://apt.puppetlabs.com ${DISTRIB_CODENAME} main
+deb http://apt.puppetlabs.com ${DISTRIB_CODENAME} dependencies
+deb-src http://apt.puppetlabs.com ${DISTRIB_CODENAME} dependencies
+EOF
 
+# Install/update puppet
 apt-get update
 if which puppet; then
 	puppet apply -e "package { 'puppet': ensure => latest; 'git': ensure => present; }"
@@ -18,6 +19,7 @@ else
 	apt-get install -y puppet git
 fi
 
+# Install apt puppet module
 if [[ ! $(puppet module list | grep puppetlabs-apt) ]]; then
 	puppet module install puppetlabs/apt
 fi
