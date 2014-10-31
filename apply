@@ -1,21 +1,22 @@
 #!/bin/bash
 # Usage: curl https://raw.githubusercontent.com/nuada/rna-course/master/apply | bash -s
 
-# Remove old puppet
-if which puppet; then
-	apt-get purge -y puppet puppet-common
-	apt-get autoremove -y
-fi
-
 # Install puppet
 apt-get update
-apt-get install -qqy wget
-. /etc/lsb-release
+dpkg -l wget 2>&1 > /dev/null && apt-get install -y wget
+
+source /etc/lsb-release
 wget http://apt.puppetlabs.com/puppetlabs-release-${DISTRIB_CODENAME}.deb
+rm -rf /etc/apt/sources.list.d/puppetlabs.list*
 dpkg -i puppetlabs-release-${DISTRIB_CODENAME}.deb
 rm -rf puppetlabs-release-${DISTRIB_CODENAME}.deb
+
 apt-get update
-apt-get -qqy install puppet
+if which puppet; then
+	puppet apply -e "package { 'puppet': ensure => latest; 'git': ensure => present; }"
+else
+	apt-get install -y puppet git
+fi
 
 if [[ ! $(puppet module list | grep puppetlabs-apt) ]]; then
 	puppet module install puppetlabs/apt
@@ -23,9 +24,6 @@ fi
 
 # If not running from repo clone it
 if [[ $0 == 'bash' ]]; then
-	if [[ ! $(dpkg -l git 2> /dev/null) ]]; then
-		apt-get install -qqy git
-	fi
 	git clone https://github.com/nuada/rna-course
 	cd rna-course
 fi
