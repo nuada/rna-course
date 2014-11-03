@@ -3,7 +3,7 @@
 
 # Setup puppetlabs APT repos
 source /etc/lsb-release
-if grep -v ${DISTRIB_CODENAME} /etc/apt/sources.list.d/puppetlabs.list; then
+if grep -v ${DISTRIB_CODENAME} /etc/apt/sources.list.d/puppetlabs.list || [[ ! -f /etc/apt/sources.list.d/puppetlabs.list ]]; then
 	rm -rf /etc/apt/sources.list.d/puppetlabs.list.*
 	cat << EOF > /etc/apt/sources.list.d/puppetlabs.list
 deb http://apt.puppetlabs.com ${DISTRIB_CODENAME} main
@@ -11,6 +11,7 @@ deb-src http://apt.puppetlabs.com ${DISTRIB_CODENAME} main
 deb http://apt.puppetlabs.com ${DISTRIB_CODENAME} dependencies
 deb-src http://apt.puppetlabs.com ${DISTRIB_CODENAME} dependencies
 EOF
+	apt-key adv --keyserver keyserver.ubuntu.com --recv 1054B7A24BD6EC30
 	apt-get update
 fi
 
