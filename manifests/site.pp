@@ -28,6 +28,7 @@ package {
 	'rsync': ensure => present;
 	'samtools': ensure => present;
 	'trimmomatic': ensure => present;
+	'wget': ensure => present;
 }
 
 bioc {
@@ -68,7 +69,7 @@ exec { 'setup-chimera':
 deb { 'rstudio':
 	url     => 'http://download1.rstudio.org/rstudio-0.98.1083-amd64.deb',
 	version => '0.98.1083',
-	require => [Package['libjpeg62'], Package['r-base']]
+	require => [Package['wget'], Package['libjpeg62'], Package['r-base']]
 }
 
 # SHRiMP
