@@ -41,7 +41,7 @@ bioc {
 	'Biostrings': ;
 	'BSgenome.Hsapiens.UCSC.hg19': ;
 	'chimera': notify => Exec['setup-chimera'];
-	'DESeq': ;
+	'DESeq2': ;
 	'EDASeq': ;
 	'edgeR': ;
 	'goseq': ;
