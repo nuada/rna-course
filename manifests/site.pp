@@ -10,6 +10,7 @@ apt::source { 'cran':
 }
 
 package {
+	'bedtools': ensure => present;
 	'bowtie': ensure => present;
 	'build-essential': ensure => present;
 	'cifs-utils': ensure => present;
@@ -28,6 +29,7 @@ package {
 	'rsync': ensure => present;
 	'samtools': ensure => present;
 	'trimmomatic': ensure => present;
+	'vim': ensure => present;
 	'wget': ensure => present;
 }
 
