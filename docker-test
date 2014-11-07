@@ -1,3 +1,0 @@
-#!/bin/bash
-
-docker run -t -i --volume=$(pwd):/home/docker --workdir=/home/docker ubuntu:14.04 /home/docker/apply

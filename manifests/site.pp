@@ -2,7 +2,7 @@ class { 'apt': }
 
 apt::source { 'cran':
 	location    => 'http://r.meteo.uni.wroc.pl/bin/linux/ubuntu',
-	release     => "$lsbdistcodename/",
+	release     => "${lsbdistcodename}/",
 	repos       => '',
 	key         => '51716619E084DAB9',
 	key_server  => 'keyserver.ubuntu.com',

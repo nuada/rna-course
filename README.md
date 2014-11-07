@@ -1,23 +1,23 @@
 # Usage
 
 ## Ubuntu 14.04
-Usage:
+To configure Ubuntu 14.04 use command:
 ```
 curl https://raw.githubusercontent.com/nuada/rna-course/master/apply | bash -s
 ```
 
 ## Docker
-Command to create new container:
+Create image:
 ```
-[[ -d $(pwd)/tmp ]] || mkdir $(pwd)/tmp
-exec docker run -i -t \
-        --name rna-course \
-        --volume=$(pwd):/home/docker \
-        --volume=$(pwd)/tmp:/tmp \
-        ubuntu:14.04 bash
+docker build -t nuada/rna-course .
 ```
 
-To configure container execute `apply` script:
+Create new container:
 ```
-root@xxxxxxxxxxxx:/# /home/docker/apply
+docker run -t -i nuada/rna-course
+```
+
+When using large datasets, all files should be stored outside container:
+```
+docker run -t -i --volume=/data:/data nuada/rna-course
 ```
