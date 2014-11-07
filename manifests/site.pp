@@ -28,6 +28,7 @@ package {
 	'r-base': ensure => latest, require => Apt::Source['cran'];
 	'rsync': ensure => present;
 	'samtools': ensure => present;
+	'screen': ensure => present;
 	'trimmomatic': ensure => present;
 	'vim': ensure => present;
 	'wget': ensure => present;
