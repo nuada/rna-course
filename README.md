@@ -1,5 +1,11 @@
 # Usage
 
+## Ubuntu 14.04
+Usage:
+```
+curl https://raw.githubusercontent.com/nuada/rna-course/master/apply | bash -s
+```
+
 ## Docker
 Command to create new container:
 ```
