@@ -19,6 +19,10 @@ package {
 	'fastqc': ensure => present;
 	'git': ensure => present;
 	'ipython': ensure => present;
+	'libboost-iostreams1.54.0': ensure => present;
+	'libboost-program-options1.54.0': ensure => present;
+	'libboost-system1.54.0': ensure => present;
+	'libboost-thread1.54.0': ensure => present;
 	'libcurl4-openssl-dev': ensure => present;
 	'libjpeg62': ensure => present;
 	'libxml2-dev': ensure => present;
@@ -67,6 +71,25 @@ exec { 'setup-chimera':
 	refreshonly => true,
 	command     => "Rscript -e 'library(chimera)' -e 'oncofuseInstallation()' -e 'gapfillerInstallation(\"unix64\")'",
 	path        => ['/bin', '/usr/bin']
+}
+
+file {
+	'/usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.53.0':
+		ensure  => link,
+		target  => '/usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.54.0',
+		require => Package['libboost-iostreams1.54.0'];
+	'/usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.53.0':
+		ensure  => link,
+		target  => '/usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.54.0',
+		require => Package['libboost-program-options1.54.0'];
+	'/usr/lib/x86_64-linux-gnu/libboost_system.so.1.53.0':
+		ensure  => link,
+		target  => '/usr/lib/x86_64-linux-gnu/libboost_system.so.1.54.0',
+		require => Package['libboost-system1.54.0'];
+	'/usr/lib/x86_64-linux-gnu/libboost_thread.so.1.53.0':
+		ensure  => link,
+		target  => '/usr/lib/x86_64-linux-gnu/libboost_thread.so.1.54.0',
+		require => Package['libboost-thread1.54.0'];
 }
 
 deb { 'rstudio':
