@@ -8,10 +8,16 @@ RUN echo 'force-unsafe-io' | tee /etc/dpkg/dpkg.cfg.d/02apt-speedup
 RUN echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' | tee /etc/apt/apt.conf.d/no-cache
 
 RUN apt-get -q update
-
+RUN bash -c 'source /etc/lsb-release && \
+	apt-get install -yq wget && \
+	wget http://apt.puppetlabs.com/puppetlabs-release-${DISTRIB_CODENAME}.deb && \
+	dpkg -i puppetlabs-release-${DISTRIB_CODENAME}.deb && \
+	rm -rf puppetlabs-release-${DISTRIB_CODENAME}.deb && \
+	apt-get -q update && \
+	apt-get install -qy puppet'
+RUN puppet module install puppetlabs/apt
 ADD manifests /tmp/manifests
-ADD apply /tmp/apply
-RUN /tmp/apply && rm -rf /tmp/{apply,manifests}
+RUN puppet apply --verbose /tmp/manifests && rm -rf /tmp/manifests
 
 RUN apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
