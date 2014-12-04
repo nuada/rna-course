@@ -19,6 +19,9 @@ RUN puppet module install puppetlabs/apt
 ADD manifests /tmp/manifests
 RUN puppet apply --verbose /tmp/manifests && rm -rf /tmp/manifests
 
+# Install skewer
+RUN wget -O /usr/bin/skewer 'http://sourceforge.net/projects/skewer/files/Binaries/skewer-0.1.120-linux-x86_64/download'
+
 RUN apt-get clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/*
 
 ENV HOME /root
