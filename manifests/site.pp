@@ -107,3 +107,9 @@ exec { 'shrimp':
 	creates => '/opt/SHRiMP_2_2_3',
 	path    => ['/bin', '/usr/bin']
 }
+
+exec { 'skewer':
+	command => 'wget -O /usr/bin/skewer "http://sourceforge.net/projects/skewer/files/Binaries/skewer-0.1.120-linux-x86_64/download"',
+	creates => '/usr/bin/skewer',
+	path    => ['/bin', '/usr/bin']
+}
